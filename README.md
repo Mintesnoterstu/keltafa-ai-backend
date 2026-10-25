@@ -6,7 +6,7 @@ Express + TypeScript backend for a full-stack AI e-commerce platform. It exposes
 
 - Node.js, Express, TypeScript
 - Supabase (PostgreSQL)
-- Google Gemini (`gemini-1.5-flash` via `@google/generative-ai`)
+- Google Gemini (`gemini-1.5-flash` via `@google/genai`)
 - Zod validation
 - JWT auth
 - Helmet, CORS, and per-IP rate limiting on `/api/chat`
@@ -151,6 +151,14 @@ Guests can chat without a JWT if they provide an email. Logged-in users get acco
 7. Set `FRONTEND_URL` to the deployed Next.js origin (no trailing slash unless that is the real origin).
 
 The server trusts one proxy hop (`trust proxy`) so rate limiting works behind Render/Railway.
+
+## Deployment (Vercel)
+
+`vercel.json` rewrites all requests to the Express app in `api/index.ts`. Local `npm start` still uses `dist/index.js` and does not listen when `VERCEL=1`.
+
+1. Set the same environment variables in the Vercel project, including `FRONTEND_URL`.
+2. Set `DEBUG_ERRORS=true` only while diagnosing 500s. Vercel sets `NODE_ENV=production`, so without this flag the API hides internal messages.
+3. Confirm `/api/health` after deploy, then `POST /api/chat`.
 
 ## Project structure
 

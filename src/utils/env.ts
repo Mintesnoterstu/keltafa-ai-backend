@@ -11,6 +11,7 @@ const envSchema = z.object({
   JWT_SECRET: z.string().min(16),
   FRONTEND_URL: z.string().url(),
   NODE_ENV: z.string().optional(),
+  DEBUG_ERRORS: z.string().optional(),
 });
 
 const parsed = envSchema.safeParse(process.env);
@@ -28,4 +29,5 @@ export const env = {
   jwtSecret: parsed.data.JWT_SECRET,
   frontendUrl: parsed.data.FRONTEND_URL,
   nodeEnv: parsed.data.NODE_ENV ?? "development",
+  debugErrors: parsed.data.DEBUG_ERRORS === "true",
 };
